@@ -1,6 +1,6 @@
 local requirePath = (...):match("(.-)[^%.]+$")
 local Stack = require(requirePath.."stack")
-local luaWriter = require(requirePath.."lua_writer")
+local LuaWriter = require(requirePath.."lua_writer")
 local heartbeat = {}
 
 heartbeat.stack = Stack.new()
@@ -42,7 +42,7 @@ end
 heartbeat.captureActive = false
 function heartbeat:StartCapture()
     self.captureActive = true
-    luaWriter:StartFile("capture.lua")
+    LuaWriter:StartFile("capture")
 end
 
 function heartbeat:HeartbeatStart()
@@ -86,7 +86,7 @@ function heartbeat:HeartbeatEnd()
     }
     self.completedScopes = {}
 
-    luaWriter:AppendFile(outData)
+    LuaWriter:AppendFile(outData)
 end
 
 return heartbeat

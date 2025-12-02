@@ -15,6 +15,15 @@ return function()
 		love.graphics.setLineWidth(priorWidth)
 	end
 
+	
+	function gfxUtil:LerpRGB(a,b,t)
+		return {
+			["r"] = a.r*(1-t)+b.r*t,
+			["g"] = a.g*(1-t)+b.g*t,
+			["b"] = a.b*(1-t)+b.b*t
+		}
+	end
+
 	return gfxUtil
 
 end

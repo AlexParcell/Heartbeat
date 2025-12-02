@@ -1,6 +1,21 @@
 return function()
 	local stringUtil = {}
 
+    function stringUtil:SplitWordsAndSeparators(str)
+        local result = {}
+        for token in string.gmatch(str, "[^,%s]+[, ]*") do
+            local word = string.match(token, "[^,%s]+")
+            local sep = string.match(token, "[, ]+")
+            table.insert(result, word)
+            if sep then
+                for s in sep:gmatch("[, ]") do
+                    table.insert(result, s)
+                end
+            end
+        end
+        return result
+    end
+    
     function stringUtil:BreakStringIntoWrappedLines(str, maxWidth, font)
         local wrappedLines = {}
         local spaceWidth = font:getWidth(" ")
