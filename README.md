@@ -127,8 +127,8 @@ When you run the Heartbeat client, make sure you pass your game's identity into 
 love.exe Heartbeat_Client {$YourGameName}
 ```
 
-# Shoutout to Messagepack!
+# Shoutout to MessagePack!
 
-Messagepack is used to serialize and deserialize data. It's fast and results in small files. Credit for Messagepack 100% goes to François Perrad and can be found at https://fperrad.frama.io/lua-MessagePack/
+MessagePack is used to serialize and deserialize data. It's fast and results in small files. Credit for MessagePack 100% goes to François Perrad and can be found at https://fperrad.frama.io/lua-MessagePack/
 
 # Enjoy!
