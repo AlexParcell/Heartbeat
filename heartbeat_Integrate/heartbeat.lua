@@ -39,6 +39,13 @@ function heartbeat:PopScope()
     end
 end
 
+function heartbeat:WithNamedScope(name, fn)
+    self:PushNamedScope(name)
+    local retA, retB, retC, retD, retE, retF = fn()
+    self:PopScope()
+    return retA, retB, retC, retD, retE, retF
+end
+
 heartbeat.captureActive = false
 function heartbeat:StartCapture()
     self.captureActive = true
@@ -47,11 +54,6 @@ end
 
 function heartbeat:HeartbeatStart()
     if (not self.captureActive) then
-        return
-    end
-    
-    if (debug.getinfo(2, "n").name ~= "update") then
-        print("HEARTBEAT - Error in heartbeat:Heartbeat: caller function is not love.update. Please only call this function at the start of love.update")
         return
     end
 
@@ -64,22 +66,29 @@ function heartbeat:HeartbeatEnd()
         return
     end
 
-    if (debug.getinfo(2, "n").name ~= "draw") then
-        print("HEARTBEAT - Error in heartbeat:HeartbeatEnd: caller function is not love.draw. Please only call this function at the end of love.draw")
-        return
+    self:PopScope()
+    self:PopScope()
+
+    local root = nil
+    for _,scope in pairs(self.completedScopes) do
+        if (scope.name == "Heartbeat") then
+            root = scope
+        end
     end
 
-    self:PopScope()
+    if not root then return end
+
+    local heartbeatTime = root.endTime - root.startTime
 
     local stats = love.graphics.getStats()
 
     local frame = {}
-    frame.FPS = love.timer.getFPS()
+    frame.FPS = math.floor((1/(heartbeatTime or 0)) + 0.5)
     frame.drawCalls = stats.drawcalls
     frame.drawCallsBatched = stats.drawCallsBatched
     frame.textureMemory = stats.texturememory / (1024 * 1024)
     frame.gcMemory = collectgarbage("count") / 1024
-    
+
     local outData = {
         frame = frame,
         scopes = self.completedScopes
