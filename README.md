@@ -1,6 +1,8 @@
 # Heartbeat
 A simple profiler for LÖVE
 
+(docs/Heartbeat.png)
+
 # Features
 - Capture performance data such as frame rate, frame time, RAM usage, VRAM usage, and other such relevant performance data.
 - Fully kitted out and capable performance data viewer.
